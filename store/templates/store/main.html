@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+  <title>Digital</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+  <script type="text/javascript">
+    var user = "{{request.user}}"
+
+    function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+
+
+  </script>
+
+</head>
+
+<body>
+
+  <nav class="navbar my-navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'store' %}"><img src="{% static 'images/logo.png' %}"></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="iconify bar-icon" data-icon="fa-solid:bars" data-inline="false"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item nav-active">
+            <a class="nav-link" href="{% url 'store' %}">Store <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+          <a href="#" class="btn btn-success">Login</a>
+
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'images/cart.png' %}">
+          </a>
+          <p id="cart-total">0</p>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container">
+    <br>
+    {% block content %}
+
+
+    {% endblock content %}
+  </div>
+
+  <!--footer starts from here-->
+  <footer class="footer">
+    <div class="container bottom_border">
+      <div class="row">
+        <div class=" col-sm-4 col-md col-sm-4  col-12 col">
+          <h5 class="headin5_amrc col_white_amrc pt2">Find us</h5>
+          <!--headin5_amrc-->
+          <p class="mb10">Not Epic Games, Inc. is an American video game and software developer and publisher based in
+            Cary, North Carolina. The company was founded by Tim Sweeney as Potomac Computer Systems in 1991, originally
+            located in his parents' house in Potomac, Maryland. </p>
+          <p><i class="fa fa-location-arrow"></i> 1234 Street, Chicago, USA </p>
+          <p><i class="fa fa-phone"></i> +91-1234567890 </p>
+          <p><i class="fa fa fa-envelope"></i> support@example.com </p>
+
+        </div>
+
+        <div class=" col-sm-4 col-md  col-6 col">
+          <h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+          <!--headin5_amrc-->
+          <ul class="footer_ul_amrc">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Disclaimer</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">How to Buy?</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+          <!--footer_ul_amrc ends here-->
+        </div>
+
+        <div class=" col-sm-4 col-md  col-6 col">
+          <h5 class="headin5_amrc col_white_amrc pt2">Advertisement</h5>
+          <!--headin5_amrc-->
+          <ul class="footer_ul_amrc">
+            <li><a href="#">Top 10 CSGO AWP Shots</a></li>
+            <li><a href="#">GTA 6 is releasing in 2025.</a></li>
+            <li><a href="#">Owen is the best web developer :)</a></li>
+            <li><a href="#">Why FTX Collapsed?</a></li>
+            <li><a href="#">Why is this website so awesome?</a></li>
+            <li><a href="#">Hello there!</a></li>
+          </ul>
+          <!--footer_ul_amrc ends here-->
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <ul class="foote_bottom_ul_amrc">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <!--foote_bottom_ul_amrc ends here-->
+      <p class="text-center">Copyright @2022 | Created by <a href="#">Owen Singh</a></p>
+
+    </div>
+
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+</body>
+
+</html>
